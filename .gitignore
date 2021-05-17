@@ -5,6 +5,8 @@ node_modules
 /.pnp
 .pnp.js
 /out
+.cache
+dist
 
 #keys
 /neardev

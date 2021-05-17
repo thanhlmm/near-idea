@@ -1,40 +1,82 @@
-/*
- * This is an example of an AssemblyScript smart contract with two simple,
- * symmetric functions:
- *
- * 1. setGreeting: accepts a greeting, such as "howdy", and records it for the
- *    user (account_id) who sent the request
- * 2. getGreeting: accepts an account_id and returns the greeting saved for it,
- *    defaulting to "Hello"
- *
- * Learn more about writing NEAR smart contracts with AssemblyScript:
- * https://docs.near.org/docs/develop/contracts/as/intro
- *
- */
+import { context, Context, logging, storage, u128 } from 'near-sdk-as'
+import { entities, reviews, Entity, Review, Sponsor, sponsors } from './model';
 
-import { Context, logging, storage } from 'near-sdk-as'
+const MIN_SPONSOR : u128 = u128.from('200000000000'); // TODO: Update me
 
-const DEFAULT_MESSAGE = 'Hello'
+// TODO: Init contract
+// export function initContract() {
+// }
 
-// Exported functions will be part of the public interface for your smart contract.
-// Feel free to extract behavior to non-exported functions!
-export function getGreeting(accountId: string): string | null {
-  // This uses raw `storage.get`, a low-level way to interact with on-chain
-  // storage for simple contracts.
-  // If you have something more complex, check out persistent collections:
-  // https://docs.near.org/docs/concepts/data-storage#assemblyscript-collection-types
-  return storage.get<string>(accountId, DEFAULT_MESSAGE)
+export function addEntity(url: string): boolean {
+  // TODO: Check if entity existed
+  const newEntity = new Entity(url, context.attachedDeposit);
+  entities.set(url, newEntity);
+
+  return true;
 }
 
-export function setGreeting(message: string): void {
-  const account_id = Context.sender
+export function addReview(url: string, detail: string): boolean {
+  const entity = entities.get(url, null);
+  assert(entity, "This entity is not existed");
 
-  // Use logging.log to record logs permanently to the blockchain!
-  logging.log(
-    // String interpolation (`like ${this}`) is a work in progress:
-    // https://github.com/AssemblyScript/assemblyscript/pull/1115
-    'Saving greeting "' + message + '" for account "' + account_id + '"'
-  )
+  const newReview = new Review(url, detail);
+  reviews.push(newReview);
 
-  storage.set(account_id, message)
+  return true;
+}
+
+export function upVote(reviewId: i32): boolean {
+  assert(reviews.containsIndex(reviewId), "This comment is not exited");
+  const review = reviews[reviewId];
+  review.up();
+
+  if (context.attachedDeposit >= MIN_SPONSOR) {
+    // Add sponsor
+    const newSponsor = new Sponsor(reviewId);
+    sponsors.push(newSponsor);
+  }
+
+  return true;
+}
+
+export function downVote(reviewId: i32): boolean {
+  assert(reviews.containsIndex(reviewId), "This comment is not exited");
+  const review = reviews[reviewId];
+  review.down();
+
+  if (context.attachedDeposit >= MIN_SPONSOR) {
+    // Add sponsor
+    const newSponsor = new Sponsor(reviewId);
+    sponsors.push(newSponsor);
+  }
+
+  return true;
+}
+
+export function getEntities(): Entity[] {
+  return entities.values();
+}
+
+export function getEntityReview(url: string): Review[] {
+  const result : Review[] = [];
+  for (let i = 0; i < reviews.length; i++) {
+    const review = reviews[i];
+    if (review.entity === url) {
+      result.push(review);
+    }
+  }
+
+  return result;
+}
+
+export function getSponsors(reviewId: i32): Sponsor[] {
+  const result : Sponsor[] = [];
+  for (let i = 0; i < sponsors.length; i++) {
+    const sponsor = sponsors[i];
+    if (sponsor.reviewId === reviewId) {
+      result.push(sponsor);
+    }
+  }
+
+  return result;
 }
