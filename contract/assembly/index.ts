@@ -28,7 +28,8 @@ export function addReview(url: string, detail: string): boolean {
 export function upVote(reviewId: i32): boolean {
   assert(reviews.containsIndex(reviewId), "This comment is not exited");
   const review = reviews[reviewId];
-  review.up();
+  const newReview = review.up();
+  reviews.replace(reviewId, newReview);
 
   if (context.attachedDeposit >= MIN_SPONSOR) {
     // Add sponsor
@@ -42,7 +43,8 @@ export function upVote(reviewId: i32): boolean {
 export function downVote(reviewId: i32): boolean {
   assert(reviews.containsIndex(reviewId), "This comment is not exited");
   const review = reviews[reviewId];
-  review.down();
+  const newReview = review.down();
+  reviews.replace(reviewId, newReview);
 
   if (context.attachedDeposit >= MIN_SPONSOR) {
     // Add sponsor
@@ -61,7 +63,7 @@ export function getEntityReview(url: string): Review[] {
   const result : Review[] = [];
   for (let i = 0; i < reviews.length; i++) {
     const review = reviews[i];
-    if (review.entity === url) {
+    if (review.entity == url) {
       result.push(review);
     }
   }
@@ -69,11 +71,11 @@ export function getEntityReview(url: string): Review[] {
   return result;
 }
 
-export function getSponsors(reviewId: i32): Sponsor[] {
+export function getReviewSponsors(reviewId: i32): Sponsor[] {
   const result : Sponsor[] = [];
   for (let i = 0; i < sponsors.length; i++) {
     const sponsor = sponsors[i];
-    if (sponsor.reviewId === reviewId) {
+    if (sponsor.reviewId == reviewId) {
       result.push(sponsor);
     }
   }

@@ -6,6 +6,7 @@
   "scripts": {
     "build": "asb",
     "build:debug": "asb --target debug",
+    "dev:deploy:contract": "near dev-deploy",
     "test": "asp --nologo"
   },
   "dependencies": {

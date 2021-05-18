@@ -19,7 +19,6 @@ export class Entity {
 
 @nearBindgen
 export class Review {
-  id: string;
   entity: string;
   detail: string;
   upVote: string[]; // TODO: Change this to hand clap is better?
@@ -35,12 +34,14 @@ export class Review {
     this.author = context.sender;
   }
 
-  up(): void {
+  up(): Review {
     this.upVote.push(context.sender);
+    return this;
   }
 
-  down(): void {
+  down(): Review {
     this.downVote.push(context.sender);
+    return this;
   }
 }
 
