@@ -12,14 +12,18 @@ const EntityPage = () => {
   const data = useRecoilValue(entity(url));
   const listReview = useRecoilValue(reviews(url)); // TODO: Sort by upvote
 
-  console.log(listReview);
-
   const handleUpVoting = (reviewId: number) => {
-    window.contract.upVote({reviewId}).then(console.log)
+    window.contract.upVote({reviewId}).then(() => {
+      // TODO: Fetch data instead of reload
+      window.location.reload();
+    })
   }
 
   const handleDownVoting = (reviewId: number) => {
-    window.contract.downVote({reviewId}).then(console.log)
+    window.contract.downVote({reviewId}).then(() => {
+      // TODO: Fetch data instead of reload
+      window.location.reload();
+    })
   }
 
   if (!data) {

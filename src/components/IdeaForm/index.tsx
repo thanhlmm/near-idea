@@ -7,8 +7,9 @@ const IdeaForm = ({ url }: { url: string}) => {
   const handleAndReview = () => {
     setLoading(true);
     window.contract.addReview({ url, detail }).then((data) => {
-      console.log(data);
       setDetail("");
+      // TODO: Fetch data instead of reload
+      window.location.reload();
     }).catch(error => console.error(error))
   }
   
