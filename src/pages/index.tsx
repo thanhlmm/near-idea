@@ -1,25 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ListEntities from '../components/ListEntities';
-
 const HomePage = () => {
   
   
   return (
     <div className="p-4">
-      <div className="mb-6">
-        <p
-          className="mb-4 prose"
-        >
-          <strong>Near💡 Idea</strong> is a place to get community idea with bounty with Near block-chain technology
-        </p>
+      <div className="flex flex-col items-center mb-6 md:flex-row">
+        <div>
+          <p
+            className="mb-4 prose"
+          >
+            <strong>Near💡 Idea</strong> is a place to get community idea with bounty with Near block-chain technology
+          </p>
 
-        <Link
-          to="/add"
-          className="px-3 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-700"
-        >
-          Get idea
-        </Link>
+          <Link
+            to="/add"
+            className="px-3 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-700"
+          >
+            Get idea
+          </Link>
+        </div>
+        <div className="h-60">
+          <img src="/idea.svg" alt="Idea image" />
+        </div>
       </div>
       <div className="space-y-4">
         <div className="p-4 border border-gray-200 rounded shadow">

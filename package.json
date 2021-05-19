@@ -36,6 +36,7 @@
     "near-cli": "~1.6.0",
     "nodemon": "~2.0.3",
     "parcel-bundler": "~1.12.4",
+    "parcel-plugin-static-files-copy": "^2.6.0",
     "postcss": "^7",
     "shelljs": "~0.8.4",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
@@ -59,6 +60,10 @@
     "recoil": "^0.3.1",
     "regenerator-runtime": "~0.13.5",
     "src": "^1.1.2"
+  },
+  "staticFiles": {
+    "staticPath": "src/assets",
+    "watcherGlob": "**"
   },
   "jest": {
     "testEnvironment": "near-cli/test_environment",

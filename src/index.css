@@ -1113,6 +1113,9 @@ select {
 .h-screen {
 	height: 100vh;
 }
+.h-60 {
+	height: 15rem;
+}
 .h-16 {
 	height: 4rem;
 }
@@ -1166,6 +1169,9 @@ select {
 }
 .cursor-pointer {
 	cursor: pointer;
+}
+.flex-col {
+	flex-direction: column;
 }
 .flex-row {
 	flex-direction: row;
@@ -1547,6 +1553,10 @@ body {
 
 	.md\:grid-cols-2 {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.md\:flex-row {
+		flex-direction: row;
 	}
 }
 
