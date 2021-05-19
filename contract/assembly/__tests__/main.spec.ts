@@ -6,6 +6,7 @@ const alice = "alice";
 const bob = "bob";
 const elonEntityUrl = "https://twitter.com/elonmusk";
 const secretEntityUrl = "https://twitter.com/SecretsOfCrypto";
+const entityDescription = "I need your idea about Near ecosystem"
 const reviewDetail = "He always make profit based on his influence, make the market up and down";
 const sponsorAmount = 3000000000000000000000;
 
@@ -15,13 +16,13 @@ describe("Entity ", () => {
   });
 
   it('should added new entity', () => {
-    addEntity(elonEntityUrl);
+    addEntity(elonEntityUrl, entityDescription);
     expect(entities.get(elonEntityUrl)).toBeTruthy("added entity")
   });
 
   it('should added new entity', () => {
     VMContext.setAttached_deposit(u128.from(3000000000000000000000))
-    addEntity(secretEntityUrl);
+    addEntity(secretEntityUrl, entityDescription);
     expect(entities.get(secretEntityUrl)).toBeTruthy("added entity")
     expect(entities).toHaveLength(1, "there is 1 entity now")
   });
@@ -31,7 +32,7 @@ describe("Entity ", () => {
 describe("Reviews ", () => {
   beforeEach(() => {
     VMContext.setSigner_account_id(bob);
-    addEntity(secretEntityUrl);
+    addEntity(secretEntityUrl, entityDescription);
   });
 
   it('should added new review', () => {
@@ -54,7 +55,7 @@ describe("Reviews ", () => {
 describe("Interactive review ", () => {
   beforeEach(() => {
     VMContext.setSigner_account_id(bob);
-    addEntity(secretEntityUrl);
+    addEntity(secretEntityUrl, entityDescription);
     addReview(secretEntityUrl, reviewDetail)
   });
 

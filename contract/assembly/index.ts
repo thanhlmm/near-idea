@@ -1,5 +1,5 @@
 import { context, Context, logging, storage, u128 } from 'near-sdk-as'
-import { entities, reviews, Entity, Review, Sponsor, sponsors } from './model';
+import { entities, reviews, Entity, Review, Sponsor, sponsors, ReviewInterface } from './model';
 
 const MIN_SPONSOR : u128 = u128.from('200000000000'); // TODO: Update me
 
@@ -7,9 +7,9 @@ const MIN_SPONSOR : u128 = u128.from('200000000000'); // TODO: Update me
 // export function initContract() {
 // }
 
-export function addEntity(url: string): boolean {
+export function addEntity(url: string, detail: string): boolean {
   // TODO: Check if entity existed
-  const newEntity = new Entity(url, context.attachedDeposit);
+  const newEntity = new Entity(url, detail, context.attachedDeposit);
   entities.set(url, newEntity);
 
   return true;
@@ -28,6 +28,7 @@ export function addReview(url: string, detail: string): boolean {
 export function upVote(reviewId: i32): boolean {
   assert(reviews.containsIndex(reviewId), "This comment is not exited");
   const review = reviews[reviewId];
+  assert(review.downVote.includes(context.sender), "You have already up vote for this Idea");
   const newReview = review.up();
   reviews.replace(reviewId, newReview);
 
@@ -43,6 +44,7 @@ export function upVote(reviewId: i32): boolean {
 export function downVote(reviewId: i32): boolean {
   assert(reviews.containsIndex(reviewId), "This comment is not exited");
   const review = reviews[reviewId];
+  assert(review.downVote.includes(context.sender), "You have already down vote for this Idea");
   const newReview = review.down();
   reviews.replace(reviewId, newReview);
 
@@ -59,12 +61,12 @@ export function getEntities(): Entity[] {
   return entities.values();
 }
 
-export function getEntityReview(url: string): Review[] {
-  const result : Review[] = [];
+export function getEntityReview(url: string): ReviewInterface[] {
+  const result: ReviewInterface[] = [];
   for (let i = 0; i < reviews.length; i++) {
     const review = reviews[i];
     if (review.entity == url) {
-      result.push(review);
+      result.push(new ReviewInterface(review, i));
     }
   }
 

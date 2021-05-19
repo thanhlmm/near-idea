@@ -14,11 +14,42 @@ declare namespace NodeJS {
   }
 }
 
+interface IEntity {
+  url: string;
+  detail: string;
+  bounty: number;
+  author: string;
+}
+
+interface IReview {
+  id: number;
+  entity: string;
+  detail: string;
+  upVote: string[]; // TODO: Change this to hand clap is better?
+  downVote: string[];
+  author: string;
+}
+
+interface ISponsor {
+  reviewId: number;
+  amount: number;
+}
+interface IContractInterface extends Contract {
+  addEntity: (...any) => Promise<boolean>;
+  addReview: ({ url: string, detail: string }) => Promise<boolean>;
+  upVote: ({ reviewId: number }) => Promise<boolean>;
+  downVote: ({ reviewId: number }) => Promise<boolean>;
+
+  getEntities: () => Promise<IEntity[]>,
+  getEntityReview: ({ url: string }) => Promise<IReview[]>,
+  getReviewSponsors: ({ reviewId: number }) => Promise<ISponsor[]>
+}
+
 declare global {
   interface Window {
     walletConnection: WalletConnection;
     accountId?: string;
-    contract: Contract
+    contract: IContractInterface
   }
 }
 

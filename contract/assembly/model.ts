@@ -7,11 +7,13 @@ export const sponsors = new PersistentVector<Sponsor>("sponsor")
 @nearBindgen
 export class Entity {
   url: string;
+  detail: string;
   bounty: u128;
   author: string;
 
-  constructor(url: string, bounty: u128) {
+  constructor(url: string, detail: string, bounty: u128) {
     this.url = url;
+    this.detail = detail;
     this.bounty = bounty;
     this.author = context.sender;
   }
@@ -42,6 +44,25 @@ export class Review {
   down(): Review {
     this.downVote.push(context.sender);
     return this;
+  }
+}
+
+@nearBindgen
+export class ReviewInterface {
+  id: number;
+  entity: string;
+  detail: string;
+  upVote: string[]; // TODO: Change this to hand clap is better?
+  downVote: string[];
+  author: string;
+
+  constructor(review: Review, id: number) {
+    this.id = id;
+    this.entity = review.entity;
+    this.detail = review.detail;
+    this.upVote = review.upVote;
+    this.downVote = review.downVote;
+    this.author = review.author;
   }
 }
 

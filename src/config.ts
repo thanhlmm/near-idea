@@ -1,4 +1,4 @@
-export const CONTRACT_NAME: string = process.env.CONTRACT_NAME as string || 'near-idea'
+export const CONTRACT_NAME: string = process.env.CONTRACT_NAME as string || 'near-idea.testnet'
 
 function getConfig(env: string) {
   switch (env) {

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import {Link} from 'react-router-dom';
@@ -10,18 +10,21 @@ const routes : {name: string; href:string}[] = [
 ]
 
 const NavBar = () => {
-  const handleSignOut = () => {};
-  const user = null;
-
-  const handleLogin= () => {
+  const [user, setUser] = useState(window.accountId);
+  
+  const handleLogin = () => {
     window.walletConnection.requestSignIn(CONTRACT_NAME)
   }
+  const handleSignOut = () => {
+    window.walletConnection.signOut();
+    setUser(window.accountId)
+  };
 
   return (
     <Disclosure as="nav" className="border-b border-gray-200 shadow">
       {({ open }) => (
         <>
-          <div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="max-w-6xl px-2 mx-auto sm:px-6 lg:px-8">
             <div className="relative flex items-center justify-between h-16">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
@@ -69,9 +72,9 @@ const NavBar = () => {
                     {({ open }) => (
                       <>
                         <div>
-                          <Menu.Button className="flex text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                          <Menu.Button className="p-2 text-sm rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                             <span className="sr-only">Open user menu</span>
-                            Hello example@gmail.com
+                            Hello <span className="font-semibold">{user}</span>
                           </Menu.Button>
                         </div>
                         <Transition
@@ -97,7 +100,7 @@ const NavBar = () => {
                                     'block px-4 py-2 text-sm text-gray-700 font-medium'
                                   )}
                                 >
-                                  example@gmail.com
+                                  {user}
                                 </a>
                               )}
                             </Menu.Item>
@@ -122,7 +125,7 @@ const NavBar = () => {
                   </Menu>
                 ) : (
                   <div className="text-sm font-medium text-gray-700 hover:text-gray-500">
-                    <a className="cursor-pointer" onClick={handleLogin} aria-label="Login with Near">Login with <span className="font-bold">Near</span></a>
+                    <a className="cursor-pointer" onClick={handleLogin} aria-label="Login with NEAR">Login with <span className="font-bold">NEAR</span></a>
                   </div>
                 )}
               </div>

@@ -7,9 +7,8 @@ import {
 import NavBar from './components/NavBar';
 import HomePage from './pages';
 import EntityPage from './pages/Entity';
-
-import getConfig from './config'
-const { networkId } = getConfig(process.env.NODE_ENV || 'development')
+import { RecoilRoot } from 'recoil';
+import AddEntityPage from './pages/AddEntity';
 
 
 function App() {
@@ -23,19 +22,24 @@ function App() {
   }, [])
 
   return (
-    <Router>
-      <NavBar />
-      <div className="m-auto max-w-7xl">
-        <Switch>
-          <Route path="/">
-            <HomePage />
-          </Route>
-          <Route path="/:entity">
-            <EntityPage />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+    <RecoilRoot>
+      <Router>
+        <NavBar />
+        <div className="max-w-6xl m-auto">
+          <Switch>
+            <Route path="/add">
+              <AddEntityPage />
+            </Route>
+            <Route path="/detail">
+              <EntityPage />
+            </Route>
+            <Route path="/">
+              <HomePage />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </RecoilRoot>
   )
 }
 
