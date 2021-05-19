@@ -21,8 +21,8 @@ const HomePage = () => {
             Get idea
           </Link>
         </div>
-        <div className="h-60">
-          <img src="/idea.svg" alt="Idea image" />
+        <div>
+          <img className="w-auto h-60" src="/idea.svg" alt="Idea image" />
         </div>
       </div>
       <div className="space-y-4">
