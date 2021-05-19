@@ -11,7 +11,7 @@ const HomePage = () => {
           <p
             className="mb-4 prose"
           >
-            <strong>Near💡 Idea</strong> is a place to get community idea with bounty with Near block-chain technology
+            <strong>Near💡 Idea</strong> is a place to get community idea with bounty built by Near block-chain technology
           </p>
 
           <Link
