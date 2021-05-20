@@ -28,7 +28,7 @@ export function addReview(url: string, detail: string): boolean {
 export function upVote(reviewId: i32): boolean {
   assert(reviews.containsIndex(reviewId), "This comment is not exited");
   const review = reviews[reviewId];
-  assert(review.downVote.includes(context.sender), "You have already up vote for this Idea");
+  assert(!review.downVote.includes(context.sender), "You have already up vote for this Idea");
   const newReview = review.up();
   reviews.replace(reviewId, newReview);
 
@@ -44,7 +44,7 @@ export function upVote(reviewId: i32): boolean {
 export function downVote(reviewId: i32): boolean {
   assert(reviews.containsIndex(reviewId), "This comment is not exited");
   const review = reviews[reviewId];
-  assert(review.downVote.includes(context.sender), "You have already down vote for this Idea");
+  assert(!review.downVote.includes(context.sender), "You have already down vote for this Idea");
   const newReview = review.down();
   reviews.replace(reviewId, newReview);
 
