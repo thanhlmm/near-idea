@@ -16,6 +16,8 @@ const EntityPage = () => {
     window.contract.upVote({reviewId}).then(() => {
       // TODO: Fetch data instead of reload
       window.location.reload();
+    }).catch(error => {
+      console.log(error)
     })
   }
 
@@ -46,8 +48,8 @@ const EntityPage = () => {
         </div>
       </div>
       
-      <div>
-        <h1 className="mb-5 text-lg font-medium">🌟 Ideas</h1>
+      <div className="mt-8">
+        <h1 className="text-lg font-medium">🌟 Ideas</h1>
 
         <div>
           <IdeaForm url={url} />

@@ -10,9 +10,9 @@ const ListEntities = () => {
   const data = useRecoilValue(entities);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 divide-y divide-gray-200">
       {data.map(entity => (
-        <div key={entity.url} className="border-b border-gray-500">
+        <div key={entity.url}>
           <div className="prose max-w-none">
             <Link
               to={{
