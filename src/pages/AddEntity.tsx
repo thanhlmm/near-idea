@@ -74,7 +74,7 @@ const AddEntityPage = () => {
 
             <div>
               <label htmlFor="about" className="block text-sm font-medium text-gray-700">
-                Bounty (in Ⓝ)
+                Bounty (in NEAR)
               </label>
               <div className="mt-1">
                 <input
