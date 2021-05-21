@@ -1,8 +1,11 @@
-import { context, PersistentUnorderedMap, PersistentVector, u128 } from "near-sdk-core";
+import { ContractPromiseBatch } from "near-sdk-as";
+import { context, ContractPromise, logging, PersistentUnorderedMap, PersistentVector, u128 } from "near-sdk-core";
 
 export const entities = new PersistentUnorderedMap<string, Entity>("entity")
 export const reviews = new PersistentVector<Review>("review")
 export const sponsors = new PersistentVector<Sponsor>("sponsor")
+
+const MIN_SPONSOR: u128 = u128.from(2 * 10 ** 24); // TODO: Update me
 
 @nearBindgen
 export class Entity {
@@ -10,12 +13,28 @@ export class Entity {
   detail: string;
   bounty: u128;
   author: string;
+  rewardedFor: i32 = -1;
 
   constructor(url: string, detail: string, bounty: u128) {
     this.url = url;
     this.detail = detail;
     this.bounty = bounty;
     this.author = context.sender;
+  }
+
+  giveBounty(reviewId: i32): Entity {
+    assert(this.author == context.sender, "You must be the author of this question to reward the bounty");
+    assert(this.bounty >= MIN_SPONSOR, "There is no bounty for this question");
+    assert(reviews.containsIndex(reviewId), "This comment is not exited");
+    const review = reviews[reviewId];
+
+    // TODO: Send the bounty to the reviewer
+
+    const reviewAuthor = ContractPromiseBatch.create(review.author);
+    reviewAuthor.transfer(this.bounty);
+    this.rewardedFor = reviewId;
+
+    return this;
   }
 }
 

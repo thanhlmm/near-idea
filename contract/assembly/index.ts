@@ -1,7 +1,7 @@
 import { context, Context, logging, storage, u128 } from 'near-sdk-as'
 import { entities, reviews, Entity, Review, Sponsor, sponsors, ReviewInterface } from './model';
 
-const MIN_SPONSOR : u128 = u128.from('200000000000'); // TODO: Update me
+const MIN_SPONSOR: u128 = u128.from(2 * 10 ** 24); // TODO: Update me
 
 // TODO: Init contract
 // export function initContract() {
@@ -53,6 +53,19 @@ export function downVote(reviewId: i32): boolean {
     const newSponsor = new Sponsor(reviewId);
     sponsors.push(newSponsor);
   }
+
+  return true;
+}
+
+export function rewardBounty(url: string, reviewId: i32): boolean {
+  const entity = entities.get(url, null);
+  assert(entity, "This entity is not existed");
+  if (!entity) {
+    return false;
+  }
+
+  const newEntity = entity.giveBounty(reviewId);
+  entities.set(url, newEntity); // Store state back
 
   return true;
 }

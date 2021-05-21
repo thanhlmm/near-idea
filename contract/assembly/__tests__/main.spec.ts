@@ -1,5 +1,5 @@
 import { u128, VMContext } from 'near-sdk-as';
-import { addEntity, addReview, downVote, getEntityReview, getReviewSponsors, upVote } from '..';
+import { addEntity, addReview, downVote, getEntities, getEntityReview, getReviewSponsors, rewardBounty, upVote } from '..';
 import { entities, reviews } from '../model';
 
 const alice = "alice";
@@ -32,6 +32,7 @@ describe("Entity ", () => {
 describe("Reviews ", () => {
   beforeEach(() => {
     VMContext.setSigner_account_id(bob);
+    VMContext.setAttached_deposit(u128.from(3000000000000000000000));
     addEntity(secretEntityUrl, entityDescription);
   });
 
@@ -49,6 +50,13 @@ describe("Reviews ", () => {
     addReview(secretEntityUrl, reviewDetail)
     addReview(secretEntityUrl, reviewDetail)
     expect(getEntityReview(secretEntityUrl)).toHaveLength(2);
+  })
+
+  it('should be able to reward for the idea', () => {
+    addReview(secretEntityUrl, reviewDetail);
+    rewardBounty(secretEntityUrl, 0);
+    const entities = getEntities();
+    expect(entities[0].isRewarded).toBe(true);
   })
 });
 

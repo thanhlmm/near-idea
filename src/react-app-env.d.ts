@@ -19,6 +19,7 @@ interface IEntity {
   detail: string;
   bounty: number;
   author: string;
+  rewardedFor: number;
 }
 
 interface IReview {
@@ -39,6 +40,7 @@ interface IContractInterface extends Contract {
   addReview: ({ url: string, detail: string }) => Promise<boolean>;
   upVote: ({ reviewId: number }) => Promise<boolean>;
   downVote: ({ reviewId: number }) => Promise<boolean>;
+  rewardBounty: ({ url: string, reviewId: number }) => Promise<boolean>;
 
   getEntities: () => Promise<IEntity[]>,
   getEntityReview: ({ url: string }) => Promise<IReview[]>,
