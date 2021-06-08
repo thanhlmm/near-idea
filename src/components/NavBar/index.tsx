@@ -128,6 +128,10 @@ const NavBar = () => {
                     <a className="cursor-pointer" onClick={handleLogin} aria-label="Login with NEAR">Login with <span className="font-bold">NEAR</span></a>
                   </div>
                 )}
+
+              <a className="ml-3" href="https://github.com/thanhlmm/near-idea" target="_blank">
+                <img className="w-8" src="./assets/logo-github.svg" alt="Github" />
+              </a>
               </div>
             </div>
           </div>
