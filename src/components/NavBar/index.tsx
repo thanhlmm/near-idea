@@ -130,7 +130,7 @@ const NavBar = () => {
                 )}
 
               <a className="ml-3" href="https://github.com/thanhlmm/near-idea" target="_blank">
-                <img className="w-8" src="./assets/logo-github.svg" alt="Github" />
+                GitHub
               </a>
               </div>
             </div>
