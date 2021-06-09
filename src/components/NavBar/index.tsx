@@ -135,13 +135,13 @@ const NavBar = () => {
                 )}
 
                 <a
-                  className="inline-block ml-3"
+                  className="ml-3"
                   href="https://github.com/thanhlmm/near-idea"
                   target="_blank"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-6 mr-1 align-middle ionicon"
+                    className="inline-block w-6 mr-1 align-middle ionicon"
                     viewBox="0 0 512 512"
                   >
                     <title>Logo Github</title>
